@@ -1,3 +1,23 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "import/extensions": [ "error", "ignorePackages", { "ts": "never", "tsx": "never" } ],
+    "import/no-absolute-path": "off",
+    "import/prefer-default-export": "off",
+    "max-len": [ "warn", { "code": 100, "ignoreComments": true, "ignoreUrls": true } ],
+    "no-duplicate-imports": "error",
+    "no-shadow": "off",
+    "no-use-before-define": "off",
+    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react/jsx-filename-extension": [ "warn", { "extensions": [ ".tsx" ] } ],
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "spaced-comment": "error"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
 }
