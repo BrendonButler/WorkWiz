@@ -44,3 +44,8 @@
 ### Deployment
 - The application can be self-hosted on a local server using Docker.
 - It can also be deployed to AWS for scalability and reliability.
+
+## Running the Application
+1. `docker-compose up -d` to start the MySQL database container in detached mode.
+2. `mvn spring-boot:run` to start the Spring Boot application.
+3. Use curl, Postman/Insomnia/Bruno, or the frontend application to interact with the APIs.
