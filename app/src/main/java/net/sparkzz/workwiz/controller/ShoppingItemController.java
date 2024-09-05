@@ -7,15 +7,12 @@ import net.sparkzz.workwiz.service.ShoppingItemServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.PagedModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,9 +29,6 @@ public class ShoppingItemController {
     @Autowired
     private ShoppingItemServiceImpl service;
 
-    @Autowired
-    private PagedResourcesAssembler<ShoppingItemDTO> pagedResourcesAssembler;
-
 
     private ShoppingItemDTO convertToDTO(ShoppingItem item) {
         return new ShoppingItemDTO(item.getId(), item.getName(), item.getDescription(), item.getPrice());
@@ -47,11 +41,10 @@ public class ShoppingItemController {
      * @return the list of {@link ShoppingItemDTO} entities
      */
     @GetMapping
-    public ResponseEntity<PagedModel<EntityModel<ShoppingItemDTO>>> getAllItems(Pageable pageable) {
+    public ResponseEntity<List<ShoppingItemDTO>> getAllItems(Pageable pageable) {
         Page<ShoppingItemDTO> page = service.getAllItems(pageable).map(this::convertToDTO);
-        PagedModel<EntityModel<ShoppingItemDTO>> pagedModel = pagedResourcesAssembler.toModel(page, WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ShoppingItemController.class).getAllItems(pageable)).withSelfRel());
 
-        return ResponseEntity.ok(pagedModel);
+        return ResponseEntity.ok(page.getContent());
     }
 
     /**
@@ -74,11 +67,11 @@ public class ShoppingItemController {
      * @param query    the query to search
      * @return the list of {@link ShoppingItemDTO} entities
      */
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/search")
-    public ResponseEntity<PagedModel<EntityModel<ShoppingItemDTO>>> searchItems(Pageable pageable, @RequestParam String query) {
+    public ResponseEntity<List<ShoppingItemDTO>> searchItems(Pageable pageable, @RequestParam String query) {
         Page<ShoppingItemDTO> page = service.searchItems(pageable, query).map(this::convertToDTO);
-        PagedModel<EntityModel<ShoppingItemDTO>> pagedModel = pagedResourcesAssembler.toModel(page, WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ShoppingItemController.class).searchItems(pageable, query)).withSelfRel());
-        return ResponseEntity.ok(pagedModel);
+        return ResponseEntity.ok(page.getContent());
     }
 
     /**
