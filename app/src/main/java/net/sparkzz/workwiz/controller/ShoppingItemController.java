@@ -26,12 +26,19 @@ import java.util.Optional;
 @Validated
 public class ShoppingItemController {
 
-    @Autowired
-    private ShoppingItemServiceImpl service;
-
+    private final ShoppingItemServiceImpl service;
 
     private ShoppingItemDTO convertToDTO(ShoppingItem item) {
         return new ShoppingItemDTO(item.getId(), item.getName(), item.getDescription(), item.getPrice());
+    }
+
+    /**
+     * Constructor for the controller.
+     *
+     * @param service the {@link ShoppingItemServiceImpl} to use
+     */
+    public ShoppingItemController(@Autowired ShoppingItemServiceImpl service) {
+        this.service = service;
     }
 
     /**

@@ -20,8 +20,16 @@ import java.util.Optional;
 @Service
 public class ShoppingItemServiceImpl implements ShoppingItemService {
 
-    @Autowired
-    private ShoppingItemRepository repository;
+    private final ShoppingItemRepository repository;
+
+    /**
+     * Constructor for the service implementation.
+     *
+     * @param repository the {@link ShoppingItemRepository} to use
+     */
+    public ShoppingItemServiceImpl(@Autowired ShoppingItemRepository repository) {
+        this.repository = repository;
+    }
 
     /**
      * Get all {@link ShoppingItem}s.
