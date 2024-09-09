@@ -1,47 +1,46 @@
-// ShoppingItemTests.java
 package net.sparkzz.workwiz.model;
 
-import org.junit.jupiter.api.BeforeEach;
+import net.sparkzz.workwiz.repository.ShoppingItemRepository;
+import net.sparkzz.workwiz.service.ShoppingItemServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class ShoppingItemTests {
 
-    @Autowired
-    private TestEntityManager entityManager;
+    @Mock
+    private ShoppingItemRepository repository;
 
-    @BeforeEach
-    void setUp() {
-        entityManager.clear();
-    }
+    @InjectMocks
+    private ShoppingItemServiceImpl service;
 
     @Test
     public void test_ShoppingItemEntity() {
         ShoppingItem item = new ShoppingItem();
+        item.setId(1L);
         item.setName("Test Item");
         item.setDescription("This is a test item");
         item.setPrice(new BigDecimal("9.99"));
 
-        ShoppingItem savedItem = entityManager.persistAndFlush(item);
+        when(repository.save(item)).thenReturn(item);
+
+        ShoppingItem savedItem = service.createItem(item);
 
         assertNotNull(savedItem.getId());
         assertEquals("Test Item", savedItem.getName());
         assertEquals("This is a test item", savedItem.getDescription());
         assertEquals(new BigDecimal("9.99"), savedItem.getPrice());
+
+        verify(repository, times(1)).save(item);
     }
 
     @Test
