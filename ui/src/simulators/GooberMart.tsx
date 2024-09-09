@@ -2,7 +2,7 @@
 /* Point of Sale (POS) Simulator */
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDebounce } from 'use-debounce';
 import { BasketItem, ShoppingItem } from '@/simulators/sub-types/Item';
@@ -120,7 +120,11 @@ export default function GooberMart() {
 
   return (
     <div className='flex flex-col items-center min-h-screen bg-gray-100 p-4'>
-      <div className='w-full max-w-md flex flex-col items-start justify-center space-y-4'>
+      <div
+        id={'goober-mart-search'}
+        data-testid={'goober-mart-search'}
+        className='w-full max-w-md flex flex-col items-start justify-center space-y-4'
+      >
         <motion.div
           ref={posSimulatorRef}
           className='w-full bg-white rounded-lg shadow-md p-6 z-10'
@@ -137,12 +141,11 @@ export default function GooberMart() {
             handleKeyPress={handleKeyPress}
             hasMore={hasMore}
             loadMoreItems={loadMoreItems}
-            searchItems={(query) => searchItems(query, 0)}
             isLoading={isLoading}
           />
           <div className='mt-4 text-sm text-gray-600 flex justify-between items-center'>
-            <div>Total: ${totalPrice.toFixed(2)}</div>
-            <div>Items in basket: {totalItems}</div>
+            <div data-testid={'price-total'}>Total: ${totalPrice.toFixed(2)}</div>
+            <div data-testid={'items-total'}>Items in basket: {totalItems}</div>
           </div>
         </motion.div>
 

@@ -20,6 +20,7 @@ export function BasketItem({ item, updateQuantity, removeItem }: BasketItemProps
 
   return (
     <motion.div
+      data-testid={`basket-item-${item.id}`}
       className='flex items-center justify-between py-2 border-b'
       initial={{ opacity: 0, x: -50 }}
       animate={{ opacity: 1, x: 0 }}
@@ -32,6 +33,7 @@ export function BasketItem({ item, updateQuantity, removeItem }: BasketItemProps
       </div>
       <div className='flex items-center space-x-2'>
         <Button
+          dataTestId={`decrement-item-${item.id}`}
           size='sm'
           variant='outline'
           onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -39,24 +41,31 @@ export function BasketItem({ item, updateQuantity, removeItem }: BasketItemProps
           <Minus className='h-4 w-4' />
         </Button>
         <Input
+          dataTestId={`quantity-item-${item.id}`}
           type='text'
           value={item.quantity}
           onChange={(e) => handleQuantityChange(e.target.value)}
           className='w-12 text-center'
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (!/[0-9]/.test(e.key)) {
               e.preventDefault();
             }
           }}
         />
         <Button
+          dataTestId={`increment-item-${item.id}`}
           size='sm'
           variant='outline'
           onClick={() => updateQuantity(item.id, item.quantity + 1)}
         >
           <Plus className='h-4 w-4' />
         </Button>
-        <Button size='sm' variant='destructive' onClick={() => removeItem(item.id)}>
+        <Button
+          dataTestId={`remove-item-${item.id}`}
+          size='sm'
+          variant='destructive'
+          onClick={() => removeItem(item.id)}
+        >
           <X className='h-4 w-4' />
         </Button>
       </div>

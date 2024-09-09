@@ -14,7 +14,11 @@ interface BasketProps {
 export function Basket({ basket, updateQuantity, removeItem, emptyBasket }: BasketProps) {
   return (
     <div className='w-full min-h-basket bg-white rounded-lg shadow-md p-6 flex flex-col'>
-      <div id='shopping-basket' className='flex justify-between items-center mb-4'>
+      <div
+        id='shopping-basket'
+        data-testid={'shopping-basket'}
+        className='flex justify-between items-center mb-4'
+      >
         <h2 className='text-xl font-semibold'>Shopping Basket</h2>
         <ClearBasketButton onClearBasket={emptyBasket} />
       </div>

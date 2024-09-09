@@ -44,13 +44,17 @@ export function SearchResults({
   if (searchResults.length === 0 && !isLoading) return null;
 
   return (
-    <div className='absolute left-0 right-0 mt-0 bg-white border border-gray-200 border-t-0 rounded-b-md shadow-sm z-20 overflow-hidden'>
+    <div
+      data-testid={'search-results'}
+      className='absolute left-0 right-0 mt-0 bg-white border border-gray-200 border-t-0 rounded-b-md shadow-sm z-20 overflow-hidden'
+    >
       <ScrollArea className='max-h-60' ref={scrollAreaRef}>
         {searchResults.map((item, index) => (
           <TooltipProvider key={`${item.id}-${index}`}>
             <Tooltip>
               <TooltipTrigger asChild>
                 <div
+                  data-testid={`search-result-${index}`}
                   className='p-2 hover:bg-gray-100 cursor-pointer flex justify-between items-center'
                   onClick={() => addToBasket(item)}
                 >

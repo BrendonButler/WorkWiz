@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ShoppingBasket } from 'lucide-react';
@@ -13,7 +13,6 @@ interface SearchBoxProps {
   handleKeyPress: (e: React.KeyboardEvent) => void;
   hasMore: boolean;
   loadMoreItems: () => void;
-  searchItems: (query: string) => void;
   isLoading: boolean;
 }
 
@@ -25,7 +24,6 @@ export function SearchBox({
   handleKeyPress,
   hasMore,
   loadMoreItems,
-  searchItems,
   isLoading
 }: SearchBoxProps) {
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -37,16 +35,17 @@ export function SearchBox({
   }, [addToBasket, searchResults]);
 
   return (
-    <div className='flex flex-col space-y-2 relative'>
+    <div data-testid={'search-box'} className='flex flex-col space-y-2 relative'>
       <div className='flex space-x-2'>
         <div className='flex-grow relative'>
           <Input
+            data-testid={'search-input'}
             ref={searchInputRef}
             type='text'
             placeholder='Search Product'
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             className='w-full'
           />
           <SearchResults
@@ -57,7 +56,7 @@ export function SearchBox({
             isLoading={isLoading}
           />
         </div>
-        <Button onClick={handleAddToBasket}>
+        <Button dataTestId={'add-button'} onClick={handleAddToBasket}>
           <ShoppingBasket className='mr-2 h-4 w-4' /> Add
         </Button>
       </div>

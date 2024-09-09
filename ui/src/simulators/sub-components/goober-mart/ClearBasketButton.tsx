@@ -26,7 +26,7 @@ export function ClearBasketButton({ onClearBasket }: ClearBasketButtonProps) {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant='destructive' size='sm'>
+        <Button dataTestId={'empty-basket-button'} variant='destructive' size='sm'>
           <Trash2 className='mr-2 h-4 w-4' /> Empty Basket
         </Button>
       </DialogTrigger>
@@ -38,10 +38,18 @@ export function ClearBasketButton({ onClearBasket }: ClearBasketButtonProps) {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant='outline' onClick={() => setIsDialogOpen(false)}>
+          <Button
+            dataTestId={'clear-basket-cancel-button'}
+            variant='outline'
+            onClick={() => setIsDialogOpen(false)}
+          >
             Cancel
           </Button>
-          <Button variant='destructive' onClick={handleClearBasket}>
+          <Button
+            dataTestId={'clear-basket-button'}
+            variant='destructive'
+            onClick={handleClearBasket}
+          >
             Clear Basket
           </Button>
         </DialogFooter>
