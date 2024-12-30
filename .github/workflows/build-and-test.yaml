@@ -15,11 +15,18 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '21'
+          cache: 'maven'
 
       - name: Build and test Spring-boot App module
         run: |
           cd app
           ./mvnw clean verify
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
       - name: Build and test React/Next.js UI module
         run: |
@@ -29,7 +36,7 @@ jobs:
           npm run test
 
       - name: Upload JaCoCo coverage to CodeCov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           files: ./app/target/site/jacoco/jacoco.xml
           flags: app
@@ -38,7 +45,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload lcov coverage to CodeCov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           files: ./ui/coverage/lcov.info
           flags: ui
